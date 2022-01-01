@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Danh sách danh mục sản phẩm</title>
+    <th:block th:replace="/cp/layout/head"/>
+    
+</head>
+
+<body>
+
+<!-- Begin page -->
+<div id="wrapper">
+
+    <!-- Topbar Start -->
+    <th:block th:replace="/cp/layout/top-bar"/>
+    <!-- end Topbar -->
+
+    <!-- ========== Left Sidebar Start ========== -->
+    <th:block th:replace="/cp/layout/left-side-menu"/>
+    <!-- Left Sidebar End -->
+
+    <!-- ============================================================== -->
+    <!-- Start Page Content here -->
+    <!-- ============================================================== -->
+
+    <div class="content-page">
+        <div class="content">
+
+            <!-- Start Content-->
+            <div class="container-fluid">
+
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Minton</a></li>
+                                    <li class="breadcrumb-item active">Dashboard</li>
+                                </ol>
+                            </div>
+                            <h4 class="page-title">List Category</h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody th:each="category:${categories}">
+                    <tr>
+                        <th th:text="${category.id}"></th>
+                        <td th:text="${category.name}"></td>
+                        <td>
+                            <a th:href="@{/cp/categories/edit/__${category.getId()}__}">
+                                <i class="far fa-edit"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <a th:href="@{/cp/categories/delete/__${category.getId()}__}">
+                                <i class="far fa-trash-alt"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+
+                <div class="row">
+                </div>
+
+            </div> <!-- container -->
+
+        </div> <!-- content -->
+
+        <!-- Footer Start -->
+        <th:block th:replace="/cp/layout/footer"/>
+        <!-- end Footer -->
+
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+
+
+</div>
+<!-- END wrapper -->
+
+<!-- Right Sidebar -->
+<th:block th:replace="/cp/layout/right-bar"/>
+<!-- /Right-bar -->
+
+<!-- Right bar overlay-->
+<div class="rightbar-overlay"></div>
+
+<th:block th:replace="/cp/layout/script"/>
+
+
+</body>
+</html>

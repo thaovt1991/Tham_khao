@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Danh sách sản phẩm</title>
+    <th:block th:replace="/cp/layout/head"/>
+</head>
+
+<body>
+
+<!-- Begin page -->
+<div id="wrapper">
+
+    <!-- Topbar Start -->
+    <th:block th:replace="/cp/layout/top-bar"/>
+    <!-- end Topbar -->
+
+    <!-- ========== Left Sidebar Start ========== -->
+    <th:block th:replace="/cp/layout/left-side-menu"/>
+    <!-- Left Sidebar End -->
+
+    <!-- ============================================================== -->
+    <!-- Start Page Content here -->
+    <!-- ============================================================== -->
+
+    <div class="content-page">
+        <div class="content">
+
+            <!-- Start Content-->
+            <div class="container-fluid">
+
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Minton</a></li>
+                                    <li class="breadcrumb-item active">Dashboard</li>
+                                </ol>
+                            </div>
+                            <h4 class="page-title">List Product</h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="header-title">Products</h4>
+                                <p class="text-muted font-13 mb-4">
+                                DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction
+                                function:
+                                <code>$().DataTable();</code>.
+                                </p>
+
+                                <table id="basic-datatable" class="table dt-responsive nowrap">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Category Group</th>
+                                        <th>Category</th>
+                                        <th>Sale</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody >
+                                    <!--                                        <th:block th:each="category:${categories}">-->
+                                    <!--                                            <tr>-->
+                                    <!--                                                <td th:text="${category.id}"></td>-->
+                                    <!--                                                <td th:text="${category.name}"></td>-->
+                                    <!--                                                <td>-->
+                                    <!--                                                    <a th:href="@{/cp/categories/edit/__${category.id}__}">-->
+                                    <!--                                                        <i class="far fa-edit"></i>-->
+                                    <!--                                                    </a>-->
+                                    <!--                                                </td>-->
+                                    <!--                                                <td>-->
+                                    <!--                                                    <a th:href="@{/cp/categories/delete/__${category.id}__}">-->
+                                    <!--                                                        <i class="far fa-trash-alt"></i>-->
+                                    <!--                                                    </a>-->
+                                    <!--                                                </td>-->
+                                    <!--                                                <td></td>-->
+                                    <!--                                                <td></td>-->
+                                    <!--                                            </tr>-->
+                                    <!--                                        </th:block>-->
+                                    </tbody>
+
+                                </table>
+
+                            </div> <!-- end card body-->
+                        </div> <!-- end card -->
+                    </div><!-- end col-->
+                </div>
+
+                <div class="row">
+                </div>
+
+            </div> <!-- container -->
+
+        </div> <!-- content -->
+
+        <!-- Footer Start -->
+        <th:block th:replace="/cp/layout/footer"/>
+        <!-- end Footer -->
+
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+
+
+</div>
+<!-- END wrapper -->
+
+<!-- Right Sidebar -->
+<th:block th:replace="/cp/layout/right-bar"/>
+<!-- /Right-bar -->
+
+<!-- Right bar overlay-->
+<div class="rightbar-overlay"></div>
+
+<th:block th:replace="/cp/layout/script"/>
+
+</body>
+</html>

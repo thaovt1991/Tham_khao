@@ -1,0 +1,40 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<th:block th:fragment="product_list">
+
+    <textarea style="display:none" id="tempGroupCategory">
+        <div id="category-item-{0}" class="list-items">
+        </div>
+    </textarea>
+
+    <textarea style="display:none" id="tempProduct">
+        <div class="item">
+                <div class="item-img">
+                    <img src="{0}" alt="" />
+                </div>
+                <div class="item-btn">
+                    <input type="button" class="btn btn-success" value="Thêm" data-id="{1}" data-name="{2}" data-price="{3}">
+                </div>
+                <div class="item-info">
+                    <p><b>{4}</b></p>
+                    <p>{5} vnđ</p>
+                </div>
+            </div>
+    </textarea>
+
+<!--    <div class="group-list-items">-->
+<!--        <div id="group-item-1" class="list-items active">-->
+<!--            <div class="item">-->
+<!--                <div class="item-img">-->
+<!--                    <img src="/resources/images/product/glass-green.jpg">-->
+<!--                </div>-->
+<!--                <div class="item-btn">-->
+<!--                    <input type="button" class="btn btn-success" value="Thêm" data-id="1" data-name="Cà phê đen" data-price="12000">-->
+<!--                </div>-->
+<!--                <div class="item-info"><p><b>Cà phê đen</b></p>-->
+<!--                    <p>12.000 vnđ</p></div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+</th:block>

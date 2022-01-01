@@ -1,0 +1,22 @@
+.group-items, .order-group-item {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.main-order-left .group-items .active {
+    background-color: #fc9f62;
+    display: block !important;
+}
+
+.group-item {
+    float: left;
+    color: white;
+    margin-left: 10px;
+    padding: 2px 20px;
+    border-radius: 15px;
+}
+
+.group-list-items .list-items {
+    width: 100%;
+    display: none;
+}

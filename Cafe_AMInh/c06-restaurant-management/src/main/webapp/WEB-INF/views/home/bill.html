@@ -1,0 +1,69 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<th:block th:fragment="bill">
+
+    <div id="main-order-1" class="main-order-right main-order" style="display: block;">
+        <!--    <div class="order-group-item">-->
+        <!--        <div class="menu-group-item active">-->
+        <!--            <p>Thanh toán</p>-->
+        <!--        </div>-->
+        <!--        <div class="menu-group-item">-->
+        <!--            <p>Gọi món</p>-->
+        <!--        </div>-->
+        <!--        <div class="menu-group-item">-->
+        <!--            <p>Lịch sử</p>-->
+        <!--        </div>-->
+        <!--    </div>-->
+        <div class="menu-order">
+            <div class="table-name">
+                <div>
+                    <p><b>Bàn 1</b></p>
+                    <p>Anh Vũ</p>
+                </div>
+            </div>
+            <div id="table-bill-1" class="table-bill">
+                <div class="bill-items">
+                    <div class="col-md-5"><p>Cà phê đen</p>
+                        <p>Giá: 12.000 vnđ</p></div>
+                    <div class="col-md-3" style="text-align: center;">
+                        <button class="btn-minus"><i class="fa fa-minus"></i></button>
+                        <span>1</span>
+                        <button class="btn-plus"><i class="fa fa-plus"></i></button>
+                    </div>
+                    <div class="col-md-4" style="text-align: right;"><p>12.000 vnđ</p></div>
+                </div>
+                <div class="bill-items">
+                    <div class="col-md-5"><p>Cà phê sữa</p>
+                        <p>Giá: 15.000 vnđ</p></div>
+                    <div class="col-md-3" style="text-align: center;">
+                        <button class="btn-minus"><i class="fa fa-minus"></i></button>
+                        <span>1</span>
+                        <button class="btn-plus"><i class="fa fa-plus"></i></button>
+                    </div>
+                    <div class="col-md-4" style="text-align: right;"><p>15.000 vnđ</p></div>
+                </div>
+            </div>
+            <div id="sub-total-money-1" class="sub-total-money">
+                <div class="col-md-8">
+                    <p><b>Tiền sản phẩm</b></p>
+                    <p>Phí dịch vụ</p>
+                </div>
+                <div class="col-md-4" style="text-align: right;">
+                    <p><b>27.000 vnđ</b></p>
+                    <p>10.000 vnđ</p></div>
+            </div>
+            <div id="total-money-1" class="total-money">
+                <div class="col-md-8">
+                    <p><b>Tổng tiền</b></p>
+                </div>
+                <div class="col-md-4" style="text-align: right;">
+                    <p><b>37.000 vnđ</b></p>
+                </div>
+            </div>
+            <div class="checkout">
+                <button type="button" class="btn btn-success">Thanh toán</button>
+            </div>
+        </div>
+    </div>
+
+</th:block>

@@ -1,0 +1,52 @@
+.list-table {
+    float: left;
+    width: 100%;
+    height: 70px;
+    color: #fff;
+    background-color: #081142;
+    overflow: hidden;
+    z-index: 90;
+    position: relative;
+    transition: transform linear 3.5s;
+}
+
+.list-table .active {
+    background-color: #3f4c71 !important;
+    border-bottom: solid 3px #e2742b;
+}
+
+.num-table {
+    text-align: center;
+    height: 70px;
+    padding-top: 10px;
+}
+
+.num-table:hover {
+    cursor: pointer;
+    background-color: #1e8aca;
+}
+
+
+.col-md-2, .col-md-4, .col-sm-5, .col-md-8 {
+    float: left;
+}
+
+a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.num-table a:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
+.list-table-extend {
+    width: 100%;
+    height: 26px;
+    text-align: center;
+    z-index: 90;
+    position: relative;
+    display: flow-root;
+}
+

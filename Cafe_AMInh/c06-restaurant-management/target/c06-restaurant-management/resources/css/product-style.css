@@ -1,0 +1,38 @@
+.item {
+    width: 23%;
+    margin: 1%;
+    background: #fff;
+    float: left;
+    padding-bottom: 10px;
+    border-radius: 10px;
+    position: relative;
+    display: block;
+}
+
+.item-img, .item-btn {
+    padding: 20px 0;
+    text-align: center;
+}
+
+.item-info {
+    text-align: center;
+}
+
+.item .item-btn {
+    display: none;
+    position: absolute;
+    border-radius: 10px;
+    top: 0;
+    left: 0;
+    background-color: #fff;
+}
+
+.btn-success:hover {
+    color: #fff;
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+.item:hover .item-btn {
+    display: inline;
+}

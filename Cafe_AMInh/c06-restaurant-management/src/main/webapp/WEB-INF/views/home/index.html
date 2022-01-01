@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Customer management</title>
+    <th:block th:include="layout/head"/>
+</head>
+<body>
+<div class="main-container">
+    <header>
+        <div class="row">
+            <div class="col-sm-5">
+                <h1>C06 JAV Restaurant</h1>
+            </div>
+            <div class="col-sm-7">
+                <ul class="list-unstyled topnav-menu float-right mb-0" style="float: right; margin-top: 5px;">
+                    <li class="dropdown notification-list">
+                        <a class="nav-link dropdown-toggle nav-user mr-0" data-toggle="dropdown"
+                           href="javascript: void(0)">
+                            <img src="/resources/images/avatar_1.jpg" alt="user-image" class="rounded-circle">
+                            <span class="pro-user-name ml-1">
+                                            <i class="mdi mdi-chevron-down"></i>
+                                        </span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right profile-dropdown">
+                            <div class="dropdown-header">
+                                <h6 class="text-overflow m-0">Welcome !</h6>
+                            </div>
+
+                            <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                <i class="fa fa-user"></i>
+                                <span>Profile</span>
+                            </a>
+
+                            <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                <i class="fa fa-cog"></i>
+                                <span>Settings</span>
+                            </a>
+
+                            <div class="dropdown-divider"></div>
+
+                            <a href="/logout" class="dropdown-item notify-item logout">
+                                <i class="fa fa-sign-out"></i>
+                                <span>Logout</span>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+                <a class="btn btn-outline-light create-modal"><i class="fa fa-plus-square-o"></i>
+                    <span>Add New Customer</span></a>
+                <a href="/transfers" class="btn btn-outline-light"><i class="fa fa-history"></i>
+                    <span>Transfer history</span></a>
+            </div>
+        </div>
+    </header>
+    <div class="box-body">
+        <th:block th:include="home/table_list"/>
+
+        <div class="main-order-left col-md-8" style="display: block;">
+            <th:block th:include="home/category_list"/>
+
+            <div id="category" class="group-items">
+            </div>
+
+            <th:block th:include="home/product_list"/>
+
+            <div id="product" class="group-list-items">
+            </div>
+        </div>
+
+        <div class="main-order-right col-md-4">
+            <th:block th:include="home/bill"/>
+        </div>
+    </div>
+</div>
+
+<th:block th:include="layout/script"/>
+
+<script type="text/javascript" src="/resources/js/custom-validation.js"></script>
+<script type="text/javascript" src="/resources/js/app.js"></script>
+
+<script>
+    let page = {
+        urls: {
+            getCategories: App.BASE_URL_CATEGORY,
+            getProducts: App.BASE_URL_PRODUCT
+        },
+        element: {},
+        loadData: {},
+        commands: {},
+        dialogs: {
+            element: {},
+            loadData: {},
+            commands: {},
+            close: {},
+            alertDanger: {},
+            inputError: {}
+        }
+    }
+
+    page.element.category = $("#category");
+    page.element.product = $("#product");
+
+    page.element.tempCategory = $("#tempCategory");
+    page.element.tempGroupCategory = $("#tempGroupCategory");
+    page.element.tempProduct = $("#tempProduct");
+
+    let tempCategory = jQuery.validator.format($.trim(page.element.tempCategory.val().toString()));
+    let tempGroupCategory = jQuery.validator.format($.trim(page.element.tempGroupCategory.val().toString()));
+    let tempProduct = jQuery.validator.format($.trim(page.element.tempProduct.val().toString()));
+
+    page.commands.addCategoryItem = (id, name) => {
+        page.element.category.append($(tempCategory(id, name)));
+    }
+
+    page.commands.addCategoryGroup = (id) => {
+        page.element.product.append($(tempGroupCategory(id)));
+    }
+
+    page.commands.addProductItem = (avatar, id, name, price) => {
+        page.element.category.append($(tempCategory(avatar, id, name, price, name, price)));
+    }
+
+
+    page.initializeControlEvent = () => {
+        $("a.nav-user").on("click", function (event) {
+            event.stopPropagation();
+            $(".profile-dropdown").slideToggle(250);
+        });
+
+        $(document).on("click", function () {
+            $(".profile-dropdown").hide();
+        });
+
+        // Click extend table on PC
+        $(".list-table-extend button").eq(0).on("click", function () {
+            $(".list-table").fadeIn(3400, function () {
+                $(".list-table").height("auto");
+            });
+
+            $(this).css("display", "none");
+            $(".container .main-order-left").css("display", "none");
+            $(".container .main-order-right").eq(0).css("display", "none");
+            $(".list-table-extend button").eq(1).css("display", "inline-block");
+            $(".nav_overlay").css("display", "block");
+        })
+
+        $(".list-table-extend button").eq(1).on("click", function () {
+            $(".list-table").height(70);
+            $(".list-table").fadeIn(3000);
+            $(this).css("display", "none");
+            $(".container .main-order-left").css("display", "block");
+            $(".container .main-order-right").eq(0).css("display", "block");
+            $(".list-table-extend button").eq(0).css("display", "inline-block");
+            $(".nav_overlay").css("display", "none");
+        })
+        // End
+
+
+        // Change Desk
+        $(".list-table .num-table a").on("click", function() {
+            $(".list-table .num-table").removeClass("active");
+            $(this).parent().addClass("active");
+
+            // $(".main-order").css("display", "none");
+            // $($(this).attr("href")).css("display", "block");
+
+            $(".list-table-extend button").eq(0).css("display", "inline-block");
+            $(".list-table-extend button").eq(1).css("display", "none");
+            $(".list-table").height(70);
+            $(".container .main-order-left").css("display", "block");
+            $(".container .main-order-right").eq(0).css("display", "block");
+            $(".nav_overlay").css("display", "none");
+            return false;
+        });
+        // End change desk
+
+    }
+
+    page.loadData.getCategories = () => {
+        return $.ajax({
+            type: "GET",
+            url: page.urls.getCategories,
+        }).done((data) => {
+
+            console.log(data)
+
+            $.each(data, (index, item) => {
+
+                page.commands.addCategoryItem(item.id, item.name);
+                page.commands.addCategoryGroup(item.id);
+
+                // customer = item;
+                // customer.balance = App.formatNumberSpace(customer.balance);
+                // locationRegion = customer.locationRegion;
+                // page.commands.addRow();
+            });
+
+            page.element.category.find(".group-item").eq(0).addClass("active");
+
+        }).fail(function () {
+            App.showErrorAlert(App.ERROR_404);
+        });
+    }
+
+    page.loadData.getProducts = () => {
+        return $.ajax({
+            type: "GET",
+            url: page.urls.getProducts,
+        }).done((data) => {
+
+            console.log(data)
+
+            $.each(data, (index, item) => {
+
+                // page.commands.addProductItem(item.avatar, item.id, item.name, item.price);
+
+                let avatar = "/resources/images/product/" + item.avatar;
+
+                $("#category-item-" + item.category.id).append($(tempProduct(avatar, item.id, item.name, item.price, item.name, item.price)));
+            });
+
+            page.element.product.find(".list-items").eq(0).addClass("active");
+
+        }).fail(function () {
+            App.showErrorAlert(App.ERROR_404);
+        });
+    }
+
+
+    $(function () {
+
+        page.loadData.getCategories().then(function () {
+            page.loadData.getProducts();
+        });
+
+        page.initializeControlEvent();
+    });
+</script>
+</body>
+</html>

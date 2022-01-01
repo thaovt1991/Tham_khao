@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+    <link rel="stylesheet" href="assets/css/sweetalert2.min.css">
+    <link rel="stylesheet" href="assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="assets/css/preview-image.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="assets/js/jquery-3.6.0.js"></script>
+    <script src="assets/js/jquery.validate-1.19.3.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/sweetalert2.min.js"></script>
+    <script src="assets/js/magnific-popup-1.1.0.js"></script>
+    <script src="assets/js/app.js"></script>
+
+</head>
+<body>
+    <div class="container">
+
+        <header>
+            <div class="row">
+                <div class="col-sm-5">
+                    <h1>List of products</h1>
+                </div>
+                <div class="col-sm-7">
+                    <a class="btn btn-outline-light create-modal"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <span>Add New Product</span></a>
+                </div>
+            </div>
+        </header>
+
+        <div class="box-body">
+
+            <th:block th:include="frm_list_table"/>
+
+            <th:block th:include="frm_create"/>
+
+            <input type="hidden" id="currentRow"/>
+
+            <table id="tbListProducts" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Image</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="loader hide"></div>
+
+    <script>
+
+        let page = {
+            urls: {
+                getAllProducts: App.BASE_URL_PRODUCT,
+                doSave: App.BASE_URL_PRODUCT,
+                doDelete: App.BASE_URL_PRODUCT + "/delete/"
+            },
+            element: {},
+            commands: {},
+            loadData: {},
+            dialogs: {
+                element: {},
+                commands: {}
+            }
+        }
+
+        page.element.loader = $(".loader");
+        page.element.tempProduct = $("#tempProduct");
+        page.element.currentRow = $("#currentRow");
+        page.element.btnShowCreateForm = $("a.create-modal");
+
+        page.element.btnDelete = $("#tempProduct body");
+        page.element.btnSave = $("#btnSave");
+
+        page.element.frmListProduct = $("#tbListProducts tbody");
+
+        page.dialogs.element.modalCreateProduct = $("#modalCreateProduct");
+        page.dialogs.element.frmProduct = $("#frmProduct");
+
+        page.dialogs.element.wrapper = $("section .wrapper");
+        page.dialogs.element.productName = $("#productName");
+        page.dialogs.element.description = $("#description");
+        page.dialogs.element.imageFileName = $("section .file-name");
+        page.dialogs.element.imageFile = $("#imageFile");
+        page.dialogs.element.btnClearImagePreview = $("#btnClearImagePreview i");
+        page.dialogs.element.imagePreview = $("section .image-preview img");
+        page.dialogs.element.imagePreview.css("display", "none");
+        page.dialogs.element.divImagePreview = $("div.image-preview");
+
+        let product = new Product();
+
+        let tempProduct = jQuery.validator.format($.trim(page.element.tempProduct.val()));
+
+        page.commands.addRow = () => {
+            let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.BASE_SCALE_IMAGE + "/" + product.fileFolder + "/" + product.fileName;
+            let video_thumbnail = App.BASE_URL_CLOUD_VIDEO + "/" + App.BASE_SCALE_IMAGE + "/" + product.fileFolder + "/" + product.fileId + ".jpg";
+            let imageFileUrl = App.BASE_URL_CLOUD_IMAGE + "/" + product.fileFolder + "/" + product.fileName;
+            let videoFileUrl = App.BASE_URL_CLOUD_VIDEO + "/" + product.fileFolder + "/" + product.fileName;
+
+
+            if (product.fileType === "image") {
+                let aClass = "image-popup-vertical-fit";
+                page.element.frmListProduct.prepend($(tempProduct(product.id, product.name, product.description, imageFileUrl, image_thumbnail, aClass)));
+            }
+
+            if (product.fileType === "video") {
+                let aClass = "popup-vimeo";
+                page.element.frmListProduct.prepend($(tempProduct(product.id, product.name, product.description, videoFileUrl, video_thumbnail, aClass)));
+            }
+        }
+
+
+        page.loadData.getAllProducts = () => {
+
+            return $.ajax({
+                type: "GET",
+                url: page.urls.getAllProducts,
+            }).done((data) => {
+
+                console.log(data)
+
+                $.each(data, (index, item) => {
+                    product = item;
+                    page.commands.addRow();
+                });
+
+            }).fail(function () {
+                App.showErrorAlert(App.ERROR_404);
+            });
+        }
+
+        page.commands.showCreateModal = () => {
+            page.dialogs.element.modalCreateProduct.modal('show');
+        }
+
+        page.commands.showDeleteConfirm = () => {
+            App.showDeleteConfirmDialog()
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        page.commands.deleteProduct();
+                    }
+                });
+        }
+
+        page.dialogs.commands.changeImagePreview = () => {
+            let imageFile = page.dialogs.element.imageFile[0].files[0];
+            let imageName = page.dialogs.element.imageFile;
+            let reader = new FileReader();
+
+            if (imageFile) {
+
+                reader.onload = function(e){
+                    page.dialogs.element.imagePreview.attr("src", e.target.result);
+                    page.dialogs.element.imagePreview.css("display", "");
+                    page.dialogs.element.wrapper.addClass("active");
+                }
+
+                reader.readAsDataURL(imageFile);
+
+                page.dialogs.element.btnClearImagePreview.on("click", function () {
+                    page.dialogs.element.imageFile.val("");
+                    page.dialogs.element.imagePreview.attr("src", "");
+                    page.dialogs.element.imagePreview.css("display", "none");
+                    page.dialogs.element.wrapper.removeClass("active");
+                });
+
+            } else {
+                page.dialogs.element.imageFile.val("");
+                page.dialogs.element.imagePreview.attr("src", "");
+                page.dialogs.element.imagePreview.css("display", "none");
+                page.dialogs.element.wrapper.removeClass("active");
+            }
+
+            if(imageName.val()){
+                // let regExp = /[0-9a-zA-Z\^\&\'\@\{\}\[\]\,\$\=\!\-\#\(\)\.\%\+\~\_ ]+$/;
+                let regExp = /[0-9a-zA-Z^&'@{}\[\],$=!\-#().%+~_ ]+$/;
+                let valueStore = imageName.val().match(regExp);
+                page.dialogs.element.imageFileName.text(valueStore);
+            }
+        }
+
+        page.dialogs.commands.createProduct = () => {
+            page.element.loader.removeClass("hide");
+            page.element.btnSave.prop('disabled', true);
+
+            let formData = new FormData();
+            formData.append("name", page.dialogs.element.productName.val().toString());
+            formData.append("description", page.dialogs.element.description.val().toString());
+            formData.append("file", page.dialogs.element.imageFile[0].files[0]);
+
+            $.ajax({
+                type: "POST",
+                contentType: false,
+                cache: false,
+                processData: false,
+                url: page.urls.doSave,
+                data: formData
+            }).done((data) => {
+                console.log(data)
+                product = data;
+
+                page.commands.addRow();
+
+                App.showSuccessAlert(App.SUCCESS_CREATED);
+
+                page.dialogs.element.modalCreateProduct.modal('hide');
+
+                page.commands.handleImagePopup();
+
+            }).fail(() => {
+                App.showErrorAlert(App.ERROR_404);
+            }).always(function () {
+                page.element.loader.addClass("hide");
+                page.element.btnSave.prop('disabled', false);
+            });
+        }
+
+        page.commands.deleteProduct = () => {
+            page.element.loader.removeClass("hide");
+
+            $.ajax({
+                type: "DELETE",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                url: page.urls.doDelete + product.id,
+            }).done((data) => {
+
+                App.showSuccessAlert(App.SUCCESS_DELETED);
+
+                $("#" + product.id).remove();
+
+                page.commands.handleImagePopup();
+
+            }).fail(function (jqXHR) {
+                App.showErrorAlert(jqXHR.responseJSON.message);
+            }).always(function () {
+                page.element.loader.addClass("hide");
+            });
+        }
+
+        page.commands.handleImagePopup = () => {
+
+            $('.image-popup-vertical-fit').magnificPopup({
+                type: 'image',
+                closeOnContentClick: true,
+                mainClass: 'mfp-img',
+                image: {
+                    verticalFit: true
+                },
+                gallery:{
+                    enabled:true
+                }
+            });
+
+            $('.popup-youtube, .popup-vimeo, .popup-gmaps').magnificPopup({
+                disableOn: 700,
+                type: 'iframe',
+                mainClass: 'mfp-fade',
+                removalDelay: 160,
+                preloader: false,
+
+                fixedContentPos: false
+            });
+        }
+
+        page.dialogs.element.modalCreateProduct.on("hidden.bs.modal", function () {
+            page.dialogs.element.frmProduct[0].reset();
+            page.dialogs.element.btnClearImagePreview.click();
+        });
+
+
+        page.initializeControlEvent = () => {
+
+            page.element.btnShowCreateForm.on("click", function () {
+                delete product.id;
+                page.commands.showCreateModal();
+            });
+
+            page.element.btnSave.on("click", function () {
+                page.dialogs.commands.createProduct();
+            });
+
+            page.element.frmListProduct.on("click", ".delete", function () {
+                // page.element.currentRow.val($(this).closest("tr").attr("id"));
+                product.id = $(this).data('id');
+                page.commands.showDeleteConfirm();
+            });
+
+            page.dialogs.element.divImagePreview.on("click", function () {
+                page.dialogs.element.imageFile.click();
+            });
+
+            page.dialogs.element.imageFile.on("change", function () {
+                page.dialogs.commands.changeImagePreview();
+            });
+
+            page.commands.handleImagePopup();
+
+        }
+
+        $(document).ready(function () {
+
+            page.loadData.getAllProducts().then(function () {
+                page.initializeControlEvent();
+            });
+
+        });
+
+    </script>
+
+</body>
+</html>

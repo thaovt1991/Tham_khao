@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Chỉnh sửa danh mục sản phẩm</title>
+    <th:block th:replace="/cp/layout/head"/>
+</head>
+
+<body>
+
+<!-- Begin page -->
+<div id="wrapper">
+
+    <!-- Topbar Start -->
+    <th:block th:replace="/cp/layout/top-bar"/>
+    <!-- end Topbar -->
+
+    <!-- ========== Left Sidebar Start ========== -->
+    <th:block th:replace="/cp/layout/left-side-menu"/>
+    <!-- Left Sidebar End -->
+
+    <!-- ============================================================== -->
+    <!-- Start Page Content here -->
+    <!-- ============================================================== -->
+
+    <div class="content-page">
+        <div class="content">
+
+            <!-- Start Content-->
+            <div class="container-fluid">
+
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Minton</a></li>
+                                    <li class="breadcrumb-item active">Dashboard</li>
+                                </ol>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div>
+                                        <a href="/cp/categories">
+                                            <button type="button" class="btn btn-success waves-effect waves-light">Back to list</button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <h4 class="page-title">Category Edit</h4>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                <form th:object="${category}" method="post">
+                    <div class="form-group">
+                        <label for="name" class="col-form-label">Name</label>
+                        <input type="text" id="name" name="name" class="form-control" th:field="*{name}">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </form>
+
+                <div class="row">
+                </div>
+
+            </div> <!-- container -->
+
+        </div> <!-- content -->
+
+        <!-- Footer Start -->
+        <th:block th:replace="/cp/layout/footer"/>
+        <!-- end Footer -->
+
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+
+
+</div>
+<!-- END wrapper -->
+
+<!-- Right Sidebar -->
+<th:block th:replace="/cp/layout/right-bar"/>
+<!-- /Right-bar -->
+
+<!-- Right bar overlay-->
+<div class="rightbar-overlay"></div>
+
+<th:block th:replace="/cp/layout/script"/>
+
+</body>
+</html>
