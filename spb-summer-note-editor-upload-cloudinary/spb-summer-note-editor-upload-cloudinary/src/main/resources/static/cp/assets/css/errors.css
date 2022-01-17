@@ -1,0 +1,46 @@
+
+.alert-success, .alert-danger {
+    padding: 1rem 60px;
+    font-size: 1rem;
+}
+
+.alert-danger {
+    color: #842029;
+    background-color: #f8d7da;
+    border-color: #f5c2c7;
+}
+
+.alert-danger label {
+    font-weight: 400;
+}
+
+.alert-danger h5 {
+    color: #842029;
+    font-size: 1.1rem;
+}
+
+.alert-danger h5 {
+    margin-left: -18px;
+}
+
+.alert-danger ul {
+    margin-left: -2rem;
+}
+
+#close {
+    top: 5px;
+    font-size: 16px;
+    font-weight: 800;
+    color: #d91515;
+    cursor: pointer;
+    right: 65px;
+    position: absolute;
+}
+
+label.error {
+    display: list-item !important;
+}
+
+input.error {
+    border: solid 1px red;
+}

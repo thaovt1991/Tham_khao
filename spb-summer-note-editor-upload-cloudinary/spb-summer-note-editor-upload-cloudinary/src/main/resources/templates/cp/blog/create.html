@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Create Blog</title>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/images/favicon.ico">
+
+    <!-- Plugins css-->
+    <link href="/cp/assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet">
+    <link href="/cp/assets/libs/switchery/switchery.min.css" rel="stylesheet" type="text/css">
+    <link href="/cp/assets/libs/multiselect/multi-select.css" rel="stylesheet" type="text/css">
+    <link href="/cp/assets/libs/select2/select2.min.css" rel="stylesheet" type="text/css">
+    <link href="/cp/assets/libs/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" type="text/css">
+    <link href="/cp/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css" rel="stylesheet">
+<!--    <link href="/cp/assets/libs/dropzone/dropzone.min.css" rel="stylesheet" type="text/css">-->
+
+    <!-- Summernote css -->
+    <link href="/cp/assets/libs/summernote/summernote-bs4.css" rel="stylesheet" type="text/css">
+
+    <!-- App css -->
+    <link href="/cp/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/cp/assets/css/icons.min.css" rel="stylesheet" type="text/css">
+    <link href="/cp/assets/css/app.min.css" rel="stylesheet" type="text/css">
+
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- Custom css -->
+    <link href="/cp/assets/css/errors.css" rel="stylesheet" type="text/css">
+    <link href="/cp/assets/css/styles.css" rel="stylesheet" type="text/css">
+    <link href="/cp/assets/css/preview-image.css" rel="stylesheet" type="text/css">
+    <link href="/cp/assets/css/expand-collapse.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+    <!-- Begin page -->
+    <div id="wrapper">
+
+        <!-- Topbar Start -->
+        <th:block th:replace="/cp/layout/top-bar"/>
+        <!-- end Topbar -->
+
+        <!-- ========== Left Sidebar Start ========== -->
+        <th:block th:replace="/cp/layout/left-side-menu"/>
+        <!-- Left Sidebar End -->
+
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+
+        <div class="content-page">
+            <div class="content pb-50">
+
+                <!-- Start Content-->
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box">
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Minton</a></li>
+                                        <li class="breadcrumb-item active">Dashboard</li>
+                                    </ol>
+                                </div>
+                                <h4 class="page-title">Add new blog</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card-box">
+                                <a href="./">
+                                    <button class="btn btn-success waves-effect waves-light">
+                                        <i class="fas fa-arrow-alt-circle-left"></i> Back to list
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="card-box">
+                                <h4 class="header-title">Blog information</h4>
+
+                                <form id="frmCreateBlog">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="col-form-label">Title</label>
+                                            <input type="text" id="title" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label class="col-form-label">Avatar</label>
+                                            <section>
+                                                <div class="wrapper">
+                                                    <div class="image-preview">
+                                                        <canvas id="canvas"></canvas>
+                                                    </div>
+                                                    <div class="content">
+                                                        <div class="icon">
+                                                            <i class="fas fa-cloud-upload-alt"></i>
+                                                        </div>
+                                                        <div class="text">
+                                                            No file chosen, yet!
+                                                        </div>
+                                                        <div class="text">
+                                                            Max file size = 2MB
+                                                        </div>
+                                                    </div>
+                                                    <div class="clear-image-preview">
+                                                        <i class="fas fa-times"></i>
+                                                    </div>
+                                                    <div class="file-name">
+                                                        Change image
+                                                    </div>
+                                                </div>
+                                                <input type="file" id="imageFile" accept="image/jpeg, image/png" hidden />
+                                            </section>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="col-form-label">Description</label>
+                                            <div id="summer-note"></div>
+                                        </div>
+                                    </div>
+
+                                    <button type="button" id="btnCreate" class="btn btn-primary mt-4">
+                                        <i class="fas fa-plus-circle"></i> Create
+                                    </button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div> <!-- container -->
+
+            </div> <!-- content -->
+
+            <!-- Footer Start -->
+            <footer class="footer">
+                <th:block th:replace="/cp/layout/error-collapse"/>
+
+                <th:block th:replace="/cp/layout/footer"/>
+            </footer>
+            <!-- End Footer -->
+
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+
+
+    </div>
+    <!-- END wrapper -->
+
+    <div class="loader hide"></div>
+
+    <!-- Right Sidebar -->
+    <th:block th:replace="/cp/layout/right-bar"/>
+    <!-- /Right-bar -->
+
+    <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div>
+
+    <!-- Vendor js -->
+    <script src="/cp/assets/js/vendor.min.js"></script>
+
+    <!-- Plugins Js -->
+    <script src="/cp/assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
+    <script src="/cp/assets/libs/switchery/switchery.min.js"></script>
+    <script src="/cp/assets/libs/multiselect/jquery.multi-select.js"></script>
+    <script src="/cp/assets/libs/jquery-quicksearch/jquery.quicksearch.min.js"></script>
+    <script src="/cp/assets/libs/select2/select2.min.js"></script>
+    <script src="/cp/assets/libs/bootstrap-select/bootstrap-select.min.js"></script>
+    <script src="/cp/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js"></script>
+    <script src="/cp/assets/libs/jquery-mask-plugin/jquery.mask.min.js"></script>
+
+    <!--<script src="/cp/assets/libs/dropzone/dropzone.min.js"></script>-->
+
+    <!-- Summernote js -->
+    <script src="/cp/assets/libs/summernote/summernote-bs4.min.js"></script>
+
+    <!-- init js -->
+    <script src="/cp/assets/js/pages/form-advanced.init.js"></script>
+    <script src="/cp/assets/js/pages/form-summernote.init.js"></script>
+
+    <!-- App js -->
+    <script src="/cp/assets/js/app.min.js"></script>
+
+    <!--<th:block th:replace="/cp/layout/script"/>-->
+
+
+    <script src="/cp/assets/js/notify-0.4.1.min.js"></script>
+    <script src="/cp/assets/js/cp-app.js"></script>
+
+    <script>
+
+        let page = {
+            urls: {
+                uploadDescriptionMedia: App.BASE_URL_DESCRIPTION_MEDIA,
+                doSave: App.BASE_URL_BLOG
+            },
+            element: {},
+            commands: {},
+            loadData: {},
+            dialogs: {
+                element: {},
+                commands: {}
+            }
+        }
+
+        page.element.loader = $(".loader");
+
+        page.element.frmCreateBlog = $("#frmCreateBlog");
+        page.element.blogTitle = $("#title");
+        page.element.imageFile = $("#imageFile");
+        page.element.summerNote = $('#summer-note');
+        page.element.btnCreate = $("#btnCreate");
+
+        page.element.wrapper = $("section .wrapper");
+        page.element.wrapperContent = $("section .wrapper .content");
+        page.element.imagePreview = $("section .image-preview canvas");
+        page.element.canvas = $("#canvas");
+        page.element.context = page.element.canvas[0].getContext('2d');
+        page.element.imagePreview.css("display", "none");
+        page.element.divImagePreview = $("div.image-preview, div.file-name");
+        page.element.btnClearImagePreview = $(".clear-image-preview i");
+
+        page.element.footerAccordion = $(".footer section.accordion");
+        page.element.footerContent = $(".footer section.accordion .content");
+        page.element.accordionCollapse = $('input[name=collapse]');
+
+
+        let blog = new Blog();
+        let blogMedia = new BlogMedia();
+
+
+        page.commands.loadImageToCanvas = (imageFile) => {
+            page.element.imagePreview.css("display", "");
+            page.element.wrapper.addClass("active");
+            page.element.wrapperContent.css("opacity", 0);
+
+            let imageObj = new Image();
+
+            imageObj.onload = function () {
+                page.element.context.canvas.width = imageObj.width;
+                page.element.context.canvas.height = imageObj.height;
+                page.element.context.drawImage(imageObj, 0, 0, imageObj.width, imageObj.height);
+            };
+
+            imageObj.src = URL.createObjectURL(imageFile)
+        }
+
+        page.commands.changeImagePreview = () => {
+            let imageFile = page.element.imageFile[0].files[0];
+
+            if (imageFile) {
+                let reader = new FileReader();
+
+                reader.readAsDataURL(imageFile);
+
+                reader.onload = function(e){
+                    if (e.target.readyState === FileReader.DONE) {
+                        page.commands.loadImageToCanvas(imageFile, "change");
+                    }
+                }
+            } else {
+                page.element.clearImagePreview();
+            }
+        }
+
+        page.commands.uploadDescriptionMedia = (mediaFile) => {
+            page.element.loader.removeClass("hide");
+            page.element.btnCreate.prop('disabled', true);
+
+            let formData = new FormData();
+            formData.append("file", mediaFile);
+
+            $.ajax({
+                type: "POST",
+                contentType: false,
+                cache: false,
+                processData: false,
+                url: page.urls.uploadDescriptionMedia,
+                data: formData
+            }).done((fileUrl) => {
+                console.log(fileUrl)
+                let image = $('<img alt="" src="">').attr('src', fileUrl);
+                page.element.summerNote.summernote("insertNode", image[0]);
+            }).fail(() => {
+                $.notify(App.ERROR_400, "error");
+            }).always(function () {
+                page.element.loader.addClass("hide");
+                page.element.btnCreate.prop('disabled', false);
+            });
+        }
+
+        page.commands.createBlog = () => {
+            page.element.loader.removeClass("hide");
+            page.element.footerAccordion.removeClass("show").addClass("hide");
+            page.element.footerContent.empty();
+            page.element.accordionCollapse.prop("checked", false);
+            page.element.btnCreate.prop('disabled', true);
+
+            let formData = new FormData();
+            formData.append("title", page.element.blogTitle.val().toString());
+            formData.append("description", page.element.summerNote.summernote('code'));
+            formData.append("file", page.element.imageFile[0].files[0]);
+
+            $.ajax({
+                type: "POST",
+                contentType: false,
+                cache: false,
+                processData: false,
+                url: page.urls.doSave,
+                data: formData
+            }).done(() => {
+
+                page.element.frmCreateBlog.find("input.error").removeClass("error");
+                page.element.frmCreateBlog[0].reset();
+                page.element.summerNote.summernote('reset');
+                page.element.clearImagePreview();
+
+                $.notify(App.SUCCESS_CREATED, "success");
+
+            }).fail((jqXHR) => {
+                $.notify(App.ERROR_400, "error");
+
+                page.element.footerAccordion.removeClass("hide").addClass("show");
+                page.element.footerContent.empty();
+                page.element.accordionCollapse.prop("checked", true);
+
+                let str = ``;
+
+                if (jqXHR.status === 401) {
+                    str += `<label id="message-error" class="error">${App.ERROR_401}</label>`;
+                } else {
+                    if (jqXHR.status === 403) {
+                        str += `<label id="message-error" class="error">${App.ERROR_403}</label>`;
+                    } else {
+                        if (jqXHR.responseJSON) {
+                            if (jqXHR.responseJSON.message) {
+                                str += `<label id="message-error" class="error" for="message">${jqXHR.responseJSON.message}</label>`;
+                            } else {
+                                $.each(jqXHR.responseJSON, function (key, value) {
+                                    str += `<label id="${key}-error" class="error" for="${key}">${value}</label>`;
+                                    $("#" + key).addClass("error");
+                                });
+                            }
+                        } else {
+                            str += `<label id="message-error" class="error">${App.ERROR_500}</label>`;
+                        }
+                    }
+                }
+
+                page.element.footerContent.html(str);
+            }).always(function () {
+                page.element.loader.addClass("hide");
+                page.element.btnCreate.prop('disabled', false);
+            });
+        }
+
+        page.initializeControlEvent = () => {
+
+            page.element.summerNote.summernote({
+                tabsize: 2,
+                height: 350,
+                callbacks: {
+                    onImageUpload: function(files) {
+                        page.commands.uploadDescriptionMedia(files[0]);
+                    }
+                }
+            });
+
+            page.element.divImagePreview.on("click", function () {
+                page.element.imageFile.trigger("click");
+            });
+
+            page.element.imageFile.on("change", function () {
+                page.commands.changeImagePreview();
+            });
+
+            page.element.clearImagePreview = () => {
+                page.element.imageFile.val("");
+                page.element.imagePreview.css("display", "none");
+                page.element.wrapper.removeClass("active");
+                page.element.wrapperContent.css("opacity", 1);
+            }
+
+            page.element.btnClearImagePreview.on("click", function () {
+                page.element.clearImagePreview();
+            });
+
+            page.element.btnCreate.on("click", function () {
+                page.commands.createBlog();
+            });
+        }
+
+        $(function() {
+            page.initializeControlEvent();
+        });
+
+    </script>
+
+</body>
+</html>
